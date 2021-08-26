@@ -11,21 +11,31 @@
  * @return {number[]}
  */
 var xorQueries = function (arr, queries) {
-    var prefixSum = []
-    var res = []
-    for (let i = 0; i < queries.length; i++) {
-        res[i] = 1 ^ 1
-        const element = queries[i]
-        for (let j = element[0]; j <= element[1]; j++) {
-            res[i] ^= arr[j]
-        }
-    }
-    console.log(res)
-    return res
-    // prefixSum[0] = 1
-    // for (let i = 0; i < res.length; i++) {
-    //     const ele = res[i]
-    //     prefixSum[i] = res[i] ^ prefixSum[i]
+    // var res = []
+    // for (let i = 0; i < queries.length; i++) {
+    //     res[i] = 1 ^ 1
+    //     const element = queries[i]
+    //     for (let j = element[0]; j <= element[1]; j++) {
+    //         res[i] ^= arr[j]
+    //     }
     // }
+    // console.log(res)
+    // return res
+
+    var res = []
+    var prefixSum = []
+    prefixSum[0] = 1
+    prefixSum[1] = arr[1]
+    for (let i = 2; i <= arr.length; i++) {
+        prefixSum[i] = prefixSum[i - 1] ^ arr[i]
+    }
+    console.log(prefixSum)
+
+    for (let i = 0; i < arr.length; i++) {
+        let l = queries[i][0]
+        let r = queries[i][1] + 1
+        res[i] = prefixSum[l] ^ prefixSum[r]
+    }
+    return res
 }
 // @lc code=end
